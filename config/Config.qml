@@ -6,6 +6,7 @@ Singleton {
     readonly property WallpaperConfig wallpaper: WallpaperConfig {}
     readonly property BarConfig bar: BarConfig {}
     readonly property BorderConfig border: BorderConfig {}
+    readonly property OsdConfig osd: OsdConfig {}
 
     component WallpaperConfig: QtObject {
         property bool enabled: true
@@ -35,4 +36,13 @@ Singleton {
         property string logo: ""
     }
 
+    component OsdConfig: QtObject {
+        property bool enabled: true
+        property bool volume: true
+        property bool brightness: true
+        property bool microphone: true
+        property bool messages: true
+        property int levelTimeout: 1500
+        property int messageTimeout: 2500
+    }
 }

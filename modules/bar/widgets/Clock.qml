@@ -7,6 +7,7 @@ Item {
     id: root
 
     property real detailProgress: 0
+    property real detailOpacity: 0
 
     implicitWidth: Math.max(time.width * time.scale, date.implicitWidth * detailProgress)
     implicitHeight: time.height * time.scale + (date.implicitHeight + Tokens.spacing.xs) * detailProgress
@@ -24,8 +25,8 @@ Item {
         font.pixelSize: Tokens.fontSize.md
         font.weight: Tokens.fontWeight.semiBold
         font.variableAxes: ({
-            "wght": Tokens.fontWeight.semiBold
-        })
+                "wght": Tokens.fontWeight.semiBold
+            })
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
     }
@@ -39,7 +40,6 @@ Item {
         color: Theme.colors.m3onSurfaceVariant
         font.family: Tokens.fontFamily.sans
         font.pixelSize: Tokens.fontSize.md
-        opacity: root.detailProgress
+        opacity: root.detailOpacity
     }
-
 }

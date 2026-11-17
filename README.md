@@ -74,7 +74,7 @@ Icons {
 }
 ```
 
-`filled` crossfades between styles. Use `animationEnabled` and `animationDuration` to control the transition.
+`filled` crossfades between styles. Use `animationEnabled` and `animationDuration` to control the transition. Use `AnimatedIcon` for a crossfade when an icon name changes; it accepts the same styling and animation options.
 
 Use the default effects animation, or select another duration and curve:
 
@@ -100,6 +100,8 @@ Feature and configuration notes are kept locally in `documentation/` which will 
 
 IPC commands are registered centrally in `services/Ipc.qml`. For example, use `qs -p . ipc call launcher toggle` `qs -p . ipc call wallpaper toggle`, or `qs -p . ipc call bar toggleExpanded`.
 
+The OSD lives in `modules/osd/` and exposes `audio`, `brightness`, and `osd` IPC targets. For example, `qs -p . ipc call osd message info "Example message"` shows a custom message. Volume and microphone state come from PipeWire; backlight control requires `brightnessctl` and a supported device. `Config.osd` controls which categories are shown.
+
 ## Run
 
 ```sh
@@ -111,7 +113,7 @@ To review a showcase, comment out `Bar {}` in `shell.qml` and uncomment either `
 ## Tasks
 - [x] Border and Exclusivezone
 - [x] Wallpaper - implement the wallpaper in modules/background/ and its selector sheet
-- [ ] OSD - implement volume, brightness, and system messages (ex. mic muted/on, nightlight on/off) and expose IPC or function call to make customizable messages
+- [x] OSD - implement volume, brightness, and system messages (ex. mic muted/on, nightlight on/off) and expose IPC or function call to make customizable messages
 - [ ] Lockscreen - implement a lockscreen with pam.d
 - [ ] Control Panel - implement control panel and panel sheets/views (think of another name) for wifi, bluetooth, nightlight, volume, etc.
 - [ ] Add media -  add media section in extended bar and implement media related controls and expose IPC

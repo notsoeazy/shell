@@ -7,7 +7,7 @@ import qs.theme
 Row {
     spacing: Tokens.spacing.sm
 
-    Icons {
+    AnimatedIcon {
         visible: Audio.sourceReady
         text: Audio.micMuted ? "microphone-slash" : "microphone"
         filled: true
@@ -15,7 +15,7 @@ Row {
         color: Audio.micMuted ? Theme.colors.m3error : Theme.colors.m3onSurface
     }
 
-    Icons {
+    AnimatedIcon {
         visible: Audio.sinkReady
         text: Audio.muted ? "speaker-slash" : "speaker-high"
         filled: true
@@ -23,7 +23,7 @@ Row {
         color: Theme.colors.m3onSurface
     }
 
-    Icons {
+    AnimatedIcon {
         text: Network.wiredConnected ? "plugs-connected" : Network.wifiConnected ? "wifi-high" : "wifi-slash"
         filled: false
         bold: true
@@ -31,12 +31,11 @@ Row {
         color: Network.wifiConnected || Network.wiredConnected ? Theme.colors.m3onSurface : Theme.colors.m3outline
     }
 
-    Icons {
+    AnimatedIcon {
         visible: Battery.available
         text: Battery.charging ? "battery-charging" : Battery.level > 0.75 ? "battery-full" : Battery.level > 0.5 ? "battery-high" : Battery.level > 0.25 ? "battery-medium" : Battery.level > 0.1 ? "battery-low" : "battery-empty"
         filled: true
         size: Tokens.iconSize.lg
         color: Battery.level <= 0.2 && !Battery.charging ? Theme.colors.m3error : Theme.colors.m3onSurface
     }
-
 }

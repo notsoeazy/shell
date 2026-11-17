@@ -8,12 +8,13 @@ Item {
     id: root
 
     property real detailProgress: BarState.showDetails ? 1 : 0
+    property real detailOpacity: BarState.showDetails ? 1 : 0
     readonly property real centerGap: Tokens.spacing.xl
     readonly property real sideWidth: Math.max(0, (width - centerGroup.width) / 2 - centerGap - Tokens.padding.xl)
 
     // Follow the animated bar height directly; animating y toward a target
     // based on that same moving height would continually restart the motion.
-    function sideRowY(rowHeight: real) : real {
+    function sideRowY(rowHeight: real): real {
         const centered = (height - rowHeight) / 2;
         const bottom = height - rowHeight - Tokens.padding.md;
         return centered + detailProgress * (bottom - centered);
@@ -26,11 +27,11 @@ Item {
         x: (root.width - width) / 2
         y: (root.height - height) / 2
         detailProgress: root.detailProgress
+        detailOpacity: root.detailOpacity
 
         TapHandler {
             onTapped: BarState.toggleLauncher()
         }
-
     }
 
     ActiveWindow {
@@ -38,7 +39,7 @@ Item {
         y: BarState.showDetails ? Math.max(Tokens.padding.sm, centerGroup.y) : Tokens.padding.md
         width: Math.min(implicitWidth, root.sideWidth)
         height: implicitHeight
-        opacity: root.detailProgress
+        opacity: root.detailOpacity
     }
 
     NotificationSummary {
@@ -46,7 +47,7 @@ Item {
         height: implicitHeight
         x: root.width - width - Tokens.padding.xl
         y: BarState.showDetails ? Math.max(Tokens.padding.sm, centerGroup.y) : Tokens.padding.md
-        opacity: root.detailProgress
+        opacity: root.detailOpacity
     }
 
     Row {
@@ -74,11 +75,8 @@ Item {
         }
 
         Behavior on opacity {
-            Anim {
-            }
-
+            Anim {}
         }
-
     }
 
     StatusIcons {
@@ -89,19 +87,21 @@ Item {
         opacity: BarState.showSides ? 1 : 0
 
         Behavior on opacity {
-            Anim {
-            }
-
+            Anim {}
         }
-
     }
 
     Behavior on detailProgress {
         Anim {
+            duration: Tokens.animDuration.spatial
+            easing.bezierCurve: Tokens.animCurve.spatial
+        }
+    }
+
+    Behavior on detailOpacity {
+        Anim {
             duration: Tokens.animDuration.effects
             easing.bezierCurve: Tokens.animCurve.effects
         }
-
     }
-
 }

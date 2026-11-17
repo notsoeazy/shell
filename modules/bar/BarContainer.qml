@@ -28,8 +28,7 @@ Item {
 
         ShapePath {
             fillColor: Theme.colors.m3surface
-            strokeWidth: 1
-            strokeColor: Qt.alpha(Theme.colors.m3outlineVariant, Math.max(0, Math.min(1, -root.shoulder)))
+            strokeWidth: -1
             startX: root.radius * (1 - root.shoulder)
             startY: 0
 
@@ -79,9 +78,7 @@ Item {
                 radiusY: root.cornerY
                 direction: root.cornerSweep
             }
-
         }
-
     }
 
     Item {
@@ -98,7 +95,6 @@ Item {
             duration: Tokens.animDuration.spatial
             easing.bezierCurve: Tokens.animCurve.spatial
         }
-
     }
 
     Behavior on bodyHeight {
@@ -106,7 +102,6 @@ Item {
             duration: Tokens.animDuration.spatial
             easing.bezierCurve: Tokens.animCurve.spatial
         }
-
     }
 
     Behavior on shoulder {
@@ -114,7 +109,5 @@ Item {
             duration: Tokens.animDuration.spatial
             easing.bezierCurve: Tokens.animCurve.spatial
         }
-
     }
-
 }

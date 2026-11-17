@@ -16,6 +16,7 @@ Singleton {
     
     readonly property LauncherTokens launcher: LauncherTokens {}
     readonly property WallpaperTokens wallpaper: WallpaperTokens {}
+    readonly property OsdTokens osd: OsdTokens {}
 
     FontLoader {
         id: geistSans
@@ -51,6 +52,7 @@ Singleton {
         readonly property int spatialFast: 350
         readonly property int spatial: 500
         readonly property int spatialSlow: 650
+        readonly property int effectsQuick: 100
         readonly property int effectsFast: 150
         readonly property int effects: 200
         readonly property int effectsSlow: 300
@@ -145,4 +147,10 @@ Singleton {
         readonly property int hintHeight: 24
     }
 
+    component OsdTokens: QtObject {
+        readonly property int width: 224
+        readonly property int height: 28
+        readonly property int maxMessageWidth: 480
+    }
+    
 }
