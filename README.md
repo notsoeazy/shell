@@ -42,14 +42,14 @@ Rectangle {
     width: 240
     height: 64
     radius: Tokens.radius.md
-    color: Theme.colors.surface
+    color: Theme.colors.m3surface
 
     Text {
         anchors.left: parent.left
         anchors.leftMargin: Tokens.spacing.md
         anchors.verticalCenter: parent.verticalCenter
         text: "Hello"
-        color: Theme.colors.onSurface
+        color: Theme.colors.m3onSurface
         font.family: Tokens.fontFamily.sans
         font.pixelSize: Tokens.fontSize.md
         font.weight: Tokens.fontWeight.bold
@@ -58,7 +58,9 @@ Rectangle {
 }
 ```
 
-Geist and Geist Mono are variable fonts; set `font.variableAxes.wght` when using a weight token to render the requested weight. Available token groups include `spacing`, `radius`, `fontFamily`, `fontSize`, `fontWeight`, `iconSize`, `animDuration`, and `animCurve`.
+Geist and Geist Mono are variable fonts; set `font.variableAxes.wght` when using a weight token to render the requested weight. Available token groups include `spacing`, `padding`, `margin`, `radius`, `fontFamily`, `fontSize`, `fontWeight`, `iconSize`, `animDuration`, and `animCurve`. Spacing, padding, and margin share the same scale.
+
+Module-specific dimensions live in their own groups, such as `Tokens.launcher.width`, `rowHeight`, and `visibleRows`. The launcher height is derived from its contents and spacing.
 
 Use Phosphor icons by name:
 
@@ -66,7 +68,7 @@ Use Phosphor icons by name:
 Icons {
     text: "microphone"
     size: Tokens.iconSize.md
-    color: Theme.colors.onSurface
+    color: Theme.colors.m3onSurface
     bold: false
     filled: true
 }
@@ -90,10 +92,24 @@ Behavior on x {
 
 `Anim` animates numbers and `CAnim` animates colors. Both default to the `effects` tokens; use effects curves for colors.
 
+## Bar
+
+Set `Config.bar.notchMode` in `config/Config.qml` to `true` for the attached notch or `false` for a floating bar. `screenGap` controls the floating gap. These values are currently edited in QML.
+
+Set `Config.bar.idleEnabled` to `false` to keep the default bar visible. `pulseOn` selects the events that briefly show it, while `pulseDuration` and `pulseStartupDelay` control timing in milliseconds.
+
+The distro logo comes from `/etc/os-release`; set `Config.bar.logo` to an icon-theme name or file path to override it, or set `showLogo` to `false` to hide it.
+
+The bar uses live Hyprland workspaces and focused-window information, PipeWire audio, networking, and UPower battery status. Workspace dots can be clicked to change workspaces. `BarController.qml` keeps `BarContent.qml` mounted while `SheetController.qml` loads and transitions the launcher.
+
+Click the clock or distro logo to open the application launcher, or run `qs -p . ipc call launcher toggle`. Type to search, use Up/Down and Enter to select an application, and press Escape to clear the search or close the launcher. The reference shell's actions, clipboard, and symbol modes are not yet available.
+
+Hyprland integrations belong in `services/Hyprland.qml`. Import `qs.services as Services` and use `Services.Hyprland` to distinguish it from Quickshell's Hyprland API.
+
 ## Run
 
 ```sh
 qs -p .
 ```
 
-To review a showcase, comment out `Bar {}` in `shell.qml` and uncomment either `FontShowcase {}` or `IconShowcase {}`, then run `qs -p .`. The main shell currently has QML loading errors in `Clock.qml` and `Theme.qml`.
+To review a showcase, comment out `Bar {}` in `shell.qml` and uncomment either `FontShowcase {}` or `IconShowcase {}`, then run `qs -p .`.

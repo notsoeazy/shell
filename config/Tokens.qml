@@ -1,11 +1,11 @@
 pragma Singleton
-
 import Quickshell
 import QtQuick
 
 Singleton {
-
     readonly property Spacing spacing: Spacing {}
+    readonly property Spacing padding: spacing
+    readonly property Spacing margin: spacing
     readonly property Radius radius: Radius {}
     readonly property FontFamilies fontFamily: FontFamilies {}
     readonly property FontSizes fontSize: FontSizes {}
@@ -13,6 +13,38 @@ Singleton {
     readonly property IconSizes iconSize: IconSizes {}
     readonly property AnimationDurations animDuration: AnimationDurations {}
     readonly property AnimationCurves animCurve: AnimationCurves {}
+    
+    readonly property LauncherTokens launcher: LauncherTokens {}
+
+    FontLoader {
+        id: geistSans
+
+        source: "../assets/Geist/Geist-Variable.ttf"
+    }
+
+    FontLoader {
+        id: geistMono
+
+        source: "../assets/Geist/GeistMono-Variable.ttf"
+    }
+
+    FontLoader {
+        id: phosphorRegular
+
+        source: "../assets/Phosphor/Phosphor.ttf"
+    }
+
+    FontLoader {
+        id: phosphorBold
+
+        source: "../assets/Phosphor/Phosphor-Bold.ttf"
+    }
+
+    FontLoader {
+        id: phosphorFill
+
+        source: "../assets/Phosphor/Phosphor-Fill.ttf"
+    }
 
     component AnimationDurations: QtObject {
         readonly property int spatialFast: 350
@@ -33,20 +65,6 @@ Singleton {
         readonly property var effectsSlow: [0.34, 0.88, 0.34, 1, 1, 1]
         readonly property var linear: [0, 0, 1, 1, 1, 1]
     }
-
-    FontLoader {
-        id: geistSans
-        source: "../assets/Geist/Geist-Variable.ttf"
-    }
-
-    FontLoader {
-        id: geistMono
-        source: "../assets/Geist/GeistMono-Variable.ttf"
-    }
-
-    FontLoader { id: phosphorRegular; source: "../assets/Phosphor/Phosphor.ttf" }
-    FontLoader { id: phosphorBold; source: "../assets/Phosphor/Phosphor-Bold.ttf" }
-    FontLoader { id: phosphorFill; source: "../assets/Phosphor/Phosphor-Fill.ttf" }
 
     component FontFamilies: QtObject {
         readonly property string sans: geistSans.name
@@ -106,4 +124,16 @@ Singleton {
         readonly property int xl: 16
         readonly property int full: 9999
     }
+
+    // Module Specific Tokens
+    component LauncherTokens: QtObject {
+        readonly property int width: 512
+        readonly property int searchHeight: 44
+        readonly property int rowHeight: 48
+        readonly property int visibleRows: 6
+        readonly property int iconTileSize: 32
+        readonly property int hintHeight: 16
+        readonly property int emptyHeight: 72
+    }
+
 }

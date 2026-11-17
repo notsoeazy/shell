@@ -1,11 +1,9 @@
 pragma Singleton
-
 import Quickshell
 import QtQuick
 
-Singleton { 
-
-    function format(pattern: string): string {
+Singleton {
+    function format(pattern: string) : string {
         return Qt.formatDateTime(clock.date, pattern);
     }
 
@@ -14,4 +12,5 @@ Singleton {
 
         precision: SystemClock.Minutes
     }
+
 }
