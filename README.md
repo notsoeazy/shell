@@ -96,6 +96,10 @@ Behavior on x {
 
 Feature and configuration notes are kept locally in `documentation/` which will be used in creating a wiki in the future. This directory is not committed.
 
+## IPC
+
+IPC commands are registered centrally in `services/Ipc.qml`. For example, use `qs -p . ipc call launcher toggle` `qs -p . ipc call wallpaper toggle`, or `qs -p . ipc call bar toggleExpanded`.
+
 ## Run
 
 ```sh

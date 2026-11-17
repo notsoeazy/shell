@@ -1,6 +1,5 @@
 import QtQuick
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland as NativeHypr
 import qs.config
@@ -44,6 +43,7 @@ PanelWindow {
 
         BarController {
             id: barController
+
             anchors.fill: parent
         }
 
@@ -63,19 +63,8 @@ PanelWindow {
         onCleared: BarState.closeSheet()
     }
 
-    IpcHandler {
-        target: "launcher"
-        function toggle(): void { BarState.toggleLauncher() }
-        function open(): void { BarState.openLauncher() }
-        function close(): void { BarState.closeSheet() }
+    BarPulses {
     }
-
-    IpcHandler {
-        target: "wallpaper"
-        function toggle(): void { BarState.toggleWallpaper() }
-    }
-
-    BarPulses {}
 
     // The input region follows the animated bar, leaving the rest click-through.
     mask: Region {
