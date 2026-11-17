@@ -115,7 +115,7 @@ qs -p .
 To review a showcase, comment out `Bar {}` in `shell.qml` and uncomment either `FontShowcase {}` or `IconShowcase {}`, then run `qs -p .`.
 
 ## Tasks
-- [ ] Border and Exclusivezone
+- [x] Border and Exclusivezone
 - [ ] Wallpaper - implement the wallpaper in modules/background/ and its selector sheet
 - [ ] OSD - implement volume, brightness, and system messages (ex. mic muted/on, nightlight on/off) and expose IPC or function call to make customizable messages
 - [ ] Lockscreen - implement a lockscreen with pam.d

@@ -9,6 +9,9 @@ import qs.components
 PanelWindow {
     id: root
 
+    property int borderThickness: 0
+
+    WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: barController.sheetWantsKeyboard ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
@@ -25,7 +28,7 @@ PanelWindow {
         id: bar
 
         x: (root.width - width) / 2
-        y: Config.bar.notchMode ? 0 : Math.max(0, Config.bar.screenGap)
+        y: root.borderThickness + (Config.bar.notchMode ? 0 : Math.max(0, Config.bar.screenGap))
         targetWidth: Math.max(40, Math.min(root.width - 40, barController.sheetGeometry ? barController.sheetWidth + 2 * Tokens.padding.lg : BarState.headerMode === "expanded" ? 560 : BarState.headerMode === "default" ? 440 : Config.bar.idleWidth))
         targetHeight: barController.sheetGeometry ? Math.min(root.height - Math.max(0, bar.y), barController.sheetHeight + 2 * Tokens.padding.lg) : BarState.showDetails ? 88 : Config.bar.barHeight
 

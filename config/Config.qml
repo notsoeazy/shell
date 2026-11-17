@@ -3,8 +3,14 @@ import QtQuick
 import Quickshell
 
 Singleton {
-    readonly property BarConfig
-    bar: BarConfig {
+    readonly property BarConfig bar: BarConfig {}
+    readonly property BorderConfig border: BorderConfig {}
+
+    component BorderConfig: QtObject {
+        property bool enabled: true
+        property int thickness: 10
+        property int radius: 20
+        property int spacing: 5
     }
 
     component BarConfig: QtObject {
