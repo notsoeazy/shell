@@ -113,3 +113,15 @@ qs -p .
 ```
 
 To review a showcase, comment out `Bar {}` in `shell.qml` and uncomment either `FontShowcase {}` or `IconShowcase {}`, then run `qs -p .`.
+
+## Tasks
+- [ ] Border and Exclusivezone
+- [ ] Wallpaper - implement the wallpaper in modules/background/ and its selector sheet
+- [ ] OSD - implement volume, brightness, and system messages (ex. mic muted/on, nightlight on/off) and expose IPC or function call to make customizable messages
+- [ ] Lockscreen - implement a lockscreen with pam.d
+- [ ] Control Panel - implement control panel and panel sheets/views (think of another name) for wifi, bluetooth, nightlight, volume, etc.
+- [ ] Add media -  add media section in extended bar and implement media related controls and expose IPC
+- [ ] Notifications - add notifications
+- [ ] Configurations - prepare the configurations and think of what can be configured and write to .config/
+- [ ] Settings panel - create a settings panel wih tabs.
+- [ ] Configure hyprland bindings and personalize styles.
