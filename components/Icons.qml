@@ -12,18 +12,30 @@ Item {
     property bool filled: false
     property int animationDuration: Tokens.animDuration.effectsFast
     property bool animationEnabled: true
+    readonly property string glyph: Phosphor.glyph(text)
+    property real fillAmount: filled ? 1 : 0
 
     implicitWidth: size
     implicitHeight: size
 
-    readonly property string glyph: Phosphor.glyph(text)
-    property real fillAmount: filled ? 1 : 0
+    Glyph {
+        font.family: root.bold ? Tokens.fontFamily.iconBold : Tokens.fontFamily.icon
+        opacity: 1 - root.fillAmount
+    }
+
+    Glyph {
+        font.family: Tokens.fontFamily.iconFill
+        opacity: root.fillAmount
+    }
+
     Behavior on fillAmount {
         enabled: root.animationEnabled
+
         Anim {
             duration: root.animationDuration
             easing.bezierCurve: Tokens.animCurve.effectsFast
         }
+
     }
 
     component Glyph: Text {
@@ -37,12 +49,4 @@ Item {
         renderType: Text.NativeRendering
     }
 
-    Glyph {
-        font.family: root.bold ? Tokens.fontFamily.iconBold : Tokens.fontFamily.icon
-        opacity: 1 - root.fillAmount
-    }
-    Glyph {
-        font.family: Tokens.fontFamily.iconFill
-        opacity: root.fillAmount
-    }
 }
