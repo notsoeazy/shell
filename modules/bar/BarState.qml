@@ -11,6 +11,7 @@ Singleton {
     property bool pointerInside: false
     property bool hoverBlocked: false
     property string activeSheet: ""
+    readonly property bool wallpaperOpen: activeSheet === "wallpaper"
     readonly property bool launcherOpen: activeSheet === "launcher"
     property bool pulsing: false
     property string sheetHeaderMode: "idle"
@@ -26,6 +27,15 @@ Singleton {
         if (activeSheet === "")
             sheetHeaderMode = barMode;
         activeSheet = "launcher";
+    }
+
+    function toggleWallpaper(): void {
+        if (wallpaperOpen) closeSheet();
+        else {
+            enterTimer.stop();
+            if (activeSheet === "") sheetHeaderMode = barMode;
+            activeSheet = "wallpaper";
+        }
     }
 
     function closeSheet(): void {

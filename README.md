@@ -92,19 +92,9 @@ Behavior on x {
 
 `Anim` animates numbers and `CAnim` animates colors. Both default to the `effects` tokens; use effects curves for colors.
 
-## Bar
+## Documentation
 
-Set `Config.bar.notchMode` in `config/Config.qml` to `true` for the attached notch or `false` for a floating bar. `screenGap` controls the floating gap. These values are currently edited in QML.
-
-Set `Config.bar.idleEnabled` to `false` to keep the default bar visible. `pulseOn` selects the events that briefly show it, while `pulseDuration` and `pulseStartupDelay` control timing in milliseconds.
-
-The distro logo comes from `/etc/os-release`; set `Config.bar.logo` to an icon-theme name or file path to override it, or set `showLogo` to `false` to hide it.
-
-The bar uses live Hyprland workspaces and focused-window information, PipeWire audio, networking, and UPower battery status. Workspace dots can be clicked to change workspaces. `BarController.qml` keeps `BarContent.qml` mounted while `SheetController.qml` loads and transitions the launcher.
-
-Click the clock or distro logo to open the application launcher, or run `qs -p . ipc call launcher toggle`. Type to search, use Up/Down and Enter to select an application, and press Escape to clear the search or close the launcher. The reference shell's actions, clipboard, and symbol modes are not yet available.
-
-Hyprland integrations belong in `services/Hyprland.qml`. Import `qs.services as Services` and use `Services.Hyprland` to distinguish it from Quickshell's Hyprland API.
+Feature and configuration notes are kept locally in `documentation/` which will be used in creating a wiki in the future. This directory is not committed.
 
 ## Run
 
@@ -116,7 +106,7 @@ To review a showcase, comment out `Bar {}` in `shell.qml` and uncomment either `
 
 ## Tasks
 - [x] Border and Exclusivezone
-- [ ] Wallpaper - implement the wallpaper in modules/background/ and its selector sheet
+- [x] Wallpaper - implement the wallpaper in modules/background/ and its selector sheet
 - [ ] OSD - implement volume, brightness, and system messages (ex. mic muted/on, nightlight on/off) and expose IPC or function call to make customizable messages
 - [ ] Lockscreen - implement a lockscreen with pam.d
 - [ ] Control Panel - implement control panel and panel sheets/views (think of another name) for wifi, bluetooth, nightlight, volume, etc.

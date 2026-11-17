@@ -1,6 +1,7 @@
 import QtQuick
 import qs.modules.bar
 import qs.modules.bar.sheets.launcher
+import qs.modules.bar.sheets.wallpaper
 
 // The registry and loader for visual sheets. BarController owns its fade.
 Item {
@@ -27,6 +28,7 @@ Item {
     function componentFor(name: string): var {
         switch (name) {
         case "launcher": return launcherComponent;
+        case "wallpaper": return wallpaperComponent;
         default: return null;
         }
     }
@@ -36,6 +38,13 @@ Item {
         Launcher {
             active: true
             interactive: root.interactive && BarState.launcherOpen
+        }
+    }
+    Component {
+        id: wallpaperComponent
+        WallpaperSelector {
+            active: BarState.wallpaperOpen
+            interactive: root.interactive && BarState.wallpaperOpen
         }
     }
     Loader {

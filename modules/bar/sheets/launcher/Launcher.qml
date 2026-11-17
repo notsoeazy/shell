@@ -140,7 +140,7 @@ Item {
         }
     }
 
-    Item {
+    KeyHints {
         anchors.top: resultArea.bottom
         anchors.topMargin: Tokens.spacing.md
         anchors.left: parent.left
@@ -148,48 +148,6 @@ Item {
         anchors.leftMargin: Tokens.padding.sm
         anchors.rightMargin: Tokens.padding.sm
         height: Tokens.launcher.hintHeight
-
-        Row {
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            spacing: Tokens.spacing.xs
-
-            Text {
-                text: "esc"
-                color: Theme.colors.m3onSurface
-                font.family: Tokens.fontFamily.mono; font.pixelSize: Tokens.fontSize.sm
-            }
-            Text {
-                text: "close"
-                color: Theme.colors.m3onSurfaceVariant
-                font.family: Tokens.fontFamily.sans; font.pixelSize: Tokens.fontSize.sm
-            }
-        }
-        Row {
-            anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            spacing: Tokens.spacing.sm
-
-            Text {
-                text: "↑↓"
-                color: Theme.colors.m3onSurface
-                font.family: Tokens.fontFamily.sans; font.pixelSize: Tokens.fontSize.sm
-            }
-            Text {
-                text: "navigate"
-                color: Theme.colors.m3onSurfaceVariant
-                font.family: Tokens.fontFamily.sans; font.pixelSize: Tokens.fontSize.sm
-            }
-            Text {
-                text: "↵"
-                color: Theme.colors.m3onSurface
-                font.family: Tokens.fontFamily.sans; font.pixelSize: Tokens.fontSize.sm
-            }
-            Text {
-                text: "enter"
-                color: Theme.colors.m3onSurfaceVariant
-                font.family: Tokens.fontFamily.sans; font.pixelSize: Tokens.fontSize.sm
-            }
-        }
+        hints: [{ key: "↑↓", text: "navigate" }, { key: "↵", text: "enter" }]
     }
 }

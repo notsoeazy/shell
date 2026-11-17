@@ -8,6 +8,10 @@ ShellRoot {
     // FontShowcase {}
     // IconShowcase {}
 
+    Background {
+        revealOrigin: bar.wallpaperOrigin
+    }
+
     Border {
         id: border
     }
@@ -17,6 +21,8 @@ ShellRoot {
     }
 
     Bar {
+        id: bar
+
         borderThickness: border.effectiveThickness
     }
 

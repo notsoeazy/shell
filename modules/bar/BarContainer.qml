@@ -111,8 +111,8 @@ Item {
 
     Behavior on shoulder {
         Anim {
-            duration: Tokens.animDuration.effects
-            easing.bezierCurve: Tokens.animCurve.effects
+            duration: Tokens.animDuration.spatial
+            easing.bezierCurve: Tokens.animCurve.spatial
         }
 
     }

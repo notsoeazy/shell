@@ -10,6 +10,7 @@ PanelWindow {
     id: root
 
     property int borderThickness: 0
+    readonly property point wallpaperOrigin: Qt.point(bar.x + bar.width / 2, bar.y + bar.height / 2)
 
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: barController.sheetWantsKeyboard ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
@@ -67,6 +68,11 @@ PanelWindow {
         function toggle(): void { BarState.toggleLauncher() }
         function open(): void { BarState.openLauncher() }
         function close(): void { BarState.closeSheet() }
+    }
+
+    IpcHandler {
+        target: "wallpaper"
+        function toggle(): void { BarState.toggleWallpaper() }
     }
 
     BarPulses {}

@@ -57,7 +57,7 @@ Item {
         enabled: interactive
         visible: opacity > 0 || interactive
         opacity: root.sheetInteractive ? 1 : 0
-        onReadyChanged: root.advance()
+        onReadyChanged: Qt.callLater(root.advance)
         onOpacityChanged: if (opacity <= 0) root.advance()
         Behavior on opacity {
             Anim { duration: Tokens.animDuration.effectsFast; easing.bezierCurve: Tokens.animCurve.effectsFast }

@@ -3,8 +3,14 @@ import QtQuick
 import Quickshell
 
 Singleton {
+    readonly property WallpaperConfig wallpaper: WallpaperConfig {}
     readonly property BarConfig bar: BarConfig {}
     readonly property BorderConfig border: BorderConfig {}
+
+    component WallpaperConfig: QtObject {
+        property bool enabled: true
+        property string directory: "~/Pictures/Wallpapers"
+    }
 
     component BorderConfig: QtObject {
         property bool enabled: true

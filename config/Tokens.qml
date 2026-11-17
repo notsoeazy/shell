@@ -15,6 +15,7 @@ Singleton {
     readonly property AnimationCurves animCurve: AnimationCurves {}
     
     readonly property LauncherTokens launcher: LauncherTokens {}
+    readonly property WallpaperTokens wallpaper: WallpaperTokens {}
 
     FontLoader {
         id: geistSans
@@ -134,6 +135,14 @@ Singleton {
         readonly property int iconTileSize: 32
         readonly property int hintHeight: 16
         readonly property int emptyHeight: 72
+    }
+    
+    component WallpaperTokens: QtObject {
+        readonly property int thumbnailWidth: 192
+        readonly property int gap: 32
+        readonly property int visibleItems: 5
+        readonly property real selectedScale: 1.25
+        readonly property int hintHeight: 24
     }
 
 }
