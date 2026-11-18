@@ -13,7 +13,7 @@ Scope {
         implicitHeight: 1
         color: "transparent"
         WlrLayershell.layer: WlrLayer.Top
-        exclusiveZone: root.edgeReservation + Math.max(0, Config.bar.barHeight) + (Config.bar.notchMode ? 0 : Math.max(0, Config.bar.screenGap))
+        exclusiveZone: root.edgeReservation + Math.max(0, Config.bar.barHeight) + (Config.bar.notchMode ? 0 : Math.max(0, Config.bar.screenGap)) - 10
 
         anchors {
             top: true
