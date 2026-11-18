@@ -10,8 +10,8 @@ Item {
 
     required property var app
 
-    signal activated()
-    signal hovered()
+    signal activated
+    signal hovered
 
     implicitHeight: Tokens.launcher.rowHeight
 
@@ -42,7 +42,6 @@ Item {
             color: Theme.colors.m3onSurfaceVariant
             visible: !appImage.visible
         }
-
     }
 
     Column {
@@ -51,7 +50,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: Tokens.padding.xxl + Tokens.padding.xxxl
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 2
+        spacing: Tokens.spacing.xxs
 
         Text {
             width: parent.width
@@ -71,19 +70,16 @@ Item {
             font.family: Tokens.fontFamily.sans
             font.pixelSize: Tokens.fontSize.sm
         }
-
     }
 
     HoverHandler {
         onHoveredChanged: {
             if (hovered)
                 root.hovered();
-
         }
     }
 
     TapHandler {
         onTapped: root.activated()
     }
-
 }

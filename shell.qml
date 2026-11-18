@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import qs.modules.bar
 import qs.modules.background
+import qs.modules.lock
 import qs.showcase
 import qs.services as Services
 
@@ -11,6 +12,17 @@ ShellRoot {
     // IconShowcase {}
 
     Component.onCompleted: Services.Ipc.initialize()
+
+    Connections {
+        target: Services.Lock
+        function onAboutToLock(): void {
+            lockScreen.captureClock(bar.screen, bar.clockSceneRect(), bar.clockPixelSize, bar.clockVisible);
+        }
+    }
+
+    LockScreen {
+        id: lockScreen
+    }
 
     Background {
         revealOrigin: bar.wallpaperOrigin
@@ -29,5 +41,4 @@ ShellRoot {
 
         borderThickness: border.effectiveThickness
     }
-
 }

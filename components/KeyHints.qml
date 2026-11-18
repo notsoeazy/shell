@@ -30,10 +30,11 @@ RowLayout {
             symbol: modelData.symbol ?? ""
             label: modelData.text ?? ""
         }
-
     }
 
     component Hint: Row {
+        id: hint
+
         property string key: ""
         property string symbol: ""
         property string label: ""
@@ -41,27 +42,25 @@ RowLayout {
         spacing: Tokens.spacing.xs
 
         Icons {
-            visible: parent.symbol !== ""
-            text: parent.symbol
+            visible: hint.symbol !== ""
+            text: hint.symbol
             size: Tokens.iconSize.sm
             color: Theme.colors.m3onSurface
         }
 
         Text {
-            visible: parent.key !== ""
-            text: parent.key
+            visible: hint.key !== ""
+            text: hint.key
             color: Theme.colors.m3onSurface
             font.family: Tokens.fontFamily.mono
             font.pixelSize: Tokens.fontSize.sm
         }
 
         Text {
-            text: parent.label
+            text: hint.label
             color: Theme.colors.m3onSurfaceVariant
             font.family: Tokens.fontFamily.sans
             font.pixelSize: Tokens.fontSize.sm
         }
-
     }
-
 }

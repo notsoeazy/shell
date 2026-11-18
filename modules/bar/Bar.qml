@@ -13,6 +13,12 @@ PanelWindow {
     readonly property bool fullscreen: Services.Hyprland.fullscreen
     readonly property point osdOffset: barController.mapToItem(bar, barController.osdX, barController.osdY)
     readonly property point wallpaperOrigin: Qt.point(bar.x + bar.width / 2, bar.y + bar.height / 2)
+    readonly property real clockPixelSize: barController.clockPixelSize
+    readonly property bool clockVisible: barController.clockVisible && bar.opacity > 0.99
+    
+    function clockSceneRect(): rect {
+        return barController.clockSceneRect();
+    }
 
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: barController.sheetWantsKeyboard ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
@@ -72,9 +78,12 @@ PanelWindow {
     }
 
     Hypr.HyprlandFocusGrab {
-        active: BarState.activeSheet !== "" && !root.fullscreen
+        active: BarState.activeSheet !== "" && !root.fullscreen && !Services.Lock.requested
         windows: [root]
-        onCleared: BarState.closeSheet()
+        onCleared: {
+            if (!Services.Lock.requested)
+                BarState.closeSheet();
+        }
     }
 
     BarPulses {}

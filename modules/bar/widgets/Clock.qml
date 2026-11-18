@@ -8,7 +8,13 @@ Item {
 
     property real detailProgress: 0
     property real detailOpacity: 0
+    readonly property real timePixelSize: time.font.pixelSize * time.scale
 
+    function timeSceneRect(): rect {
+        const p = time.mapToItem(null, 0, 0);
+        return Qt.rect(p.x, p.y, time.width * time.scale, time.height * time.scale);
+    }
+    
     implicitWidth: Math.max(time.width * time.scale, date.implicitWidth * detailProgress)
     implicitHeight: time.height * time.scale + (date.implicitHeight + Tokens.spacing.xs) * detailProgress
 

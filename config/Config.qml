@@ -7,6 +7,7 @@ Singleton {
     readonly property BarConfig bar: BarConfig {}
     readonly property BorderConfig border: BorderConfig {}
     readonly property OsdConfig osd: OsdConfig {}
+    readonly property IdleConfig idle: IdleConfig {}
 
     component WallpaperConfig: QtObject {
         property bool enabled: true
@@ -44,5 +45,9 @@ Singleton {
         property bool messages: true
         property int levelTimeout: 1500
         property int messageTimeout: 2500
+    }
+
+    component IdleConfig: QtObject {
+        property int lockAfter: 300
     }
 }

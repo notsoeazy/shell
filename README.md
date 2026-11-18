@@ -102,6 +102,10 @@ IPC commands are registered centrally in `services/Ipc.qml`. For example, use `q
 
 The OSD lives in `modules/osd/` and exposes `audio`, `brightness`, and `osd` IPC targets. For example, `qs -p . ipc call osd message info "Example message"` shows a custom message. Volume and microphone state come from PipeWire; backlight control requires `brightnessctl` and a supported device. `Config.osd` controls which categories are shown.
 
+## Lockscreen
+
+The shell locks after 300 seconds of inactivity by default. Set `Config.idle.lockAfter` in `config/Config.qml` to a different number of seconds, or `0` to disable idle locking. Run `qs -p . ipc call lock lock` to lock manually. Unlocking uses the system PAM `login` authentication stack; no project-specific PAM file is installed. The lock uses Wayland session-lock surfaces, and the compositor may remain locked if the shell exits while locked.
+
 ## Run
 
 ```sh
@@ -114,7 +118,7 @@ To review a showcase, comment out `Bar {}` in `shell.qml` and uncomment either `
 - [x] Border and Exclusivezone
 - [x] Wallpaper - implement the wallpaper in modules/background/ and its selector sheet
 - [x] OSD - implement volume, brightness, and system messages (ex. mic muted/on, nightlight on/off) and expose IPC or function call to make customizable messages
-- [ ] Lockscreen - implement a lockscreen with pam.d
+- [x] Lockscreen - implement a lockscreen with pam.d
 - [ ] Control Panel - implement control panel and panel sheets/views (think of another name) for wifi, bluetooth, nightlight, volume, etc.
 - [ ] Add media -  add media section in extended bar and implement media related controls and expose IPC
 - [ ] Notifications - add notifications

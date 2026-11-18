@@ -28,7 +28,13 @@ Item {
     readonly property real sheetHeight: sheet.contentHeight
     readonly property bool sheetInteractive: requestedSheetReady && !headerShown && header.opacity <= 0 && !Osd.active && root.contentMode === "normal" && !root.fullscreen
     readonly property bool sheetWantsKeyboard: BarState.activeSheet !== "" && !root.fullscreen && (!requestedSheetReady || sheet.wantsKeyboard)
+    readonly property real clockPixelSize: header.clockPixelSize
+    readonly property bool clockVisible: header.opacity > 0.99 && contentMode === "normal" && !fullscreen && BarState.activeSheet === ""
 
+    function clockSceneRect(): rect {
+        return header.clockSceneRect();
+    }
+    
     function syncPresentation(): void {
         const desired = Osd.active ? "osd" : "normal";
         if (contentMode !== "none" && contentMode !== desired) {

@@ -11,7 +11,11 @@ Item {
     property real detailOpacity: BarState.showDetails ? 1 : 0
     readonly property real centerGap: Tokens.spacing.xl
     readonly property real sideWidth: Math.max(0, (width - centerGroup.width) / 2 - centerGap - Tokens.padding.xl)
+    readonly property real clockPixelSize: centerGroup.timePixelSize
 
+    function clockSceneRect(): rect {
+        return centerGroup.timeSceneRect();
+    }
     // Follow the animated bar height directly; animating y toward a target
     // based on that same moving height would continually restart the motion.
     function sideRowY(rowHeight: real): real {

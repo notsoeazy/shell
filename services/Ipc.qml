@@ -7,6 +7,14 @@ Singleton {
     // Referenced by ShellRoot to register handlers at startup.
     function initialize(): void {
         Osd.initialize();
+        Idle.initialize();
+    }
+
+    IpcHandler {
+        target: "lock"
+        function lock(): void {
+            Lock.lock();
+        }
     }
 
     IpcHandler {

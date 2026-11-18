@@ -17,6 +17,7 @@ Singleton {
     readonly property LauncherTokens launcher: LauncherTokens {}
     readonly property WallpaperTokens wallpaper: WallpaperTokens {}
     readonly property OsdTokens osd: OsdTokens {}
+    readonly property LockTokens lock: LockTokens {}
 
     FontLoader {
         id: geistSans
@@ -152,5 +153,12 @@ Singleton {
         readonly property int height: 28
         readonly property int maxMessageWidth: 480
     }
-    
+
+    component LockTokens: QtObject {
+        readonly property int clockSize: 96
+        readonly property int fieldWidth: 288
+        readonly property int fieldHeight: 48
+        readonly property real clockCenter: 0.3
+        readonly property real fieldCenter: 0.72
+    }
 }
