@@ -20,6 +20,7 @@ showcase/             Standalone component and font previews
 
 - Put reusable controls in `components/`; keep feature-specific widgets under their module, for example `modules/bar/widgets/`.
 - Put system access and shared state in `services/`, and compose complete features under `modules/`.
+- The launcher and wallpaper selector live in `modules/launcher/` and `modules/wallpaper/`; `modules/bar/SheetController.qml` loads them into the bar.
 - Add shared dimensions, typography, and motion values to `config/Tokens.qml`; put semantic colors in `theme/Theme.qml`.
 - Keep bundled assets with their licenses in `assets/`, and shared non-UI helpers in `utils/`.
 - Add visual preview windows to `showcase/`. Enable a preview from `shell.qml` when needed.

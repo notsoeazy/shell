@@ -1,7 +1,7 @@
 import QtQuick
 import qs.modules.bar
-import qs.modules.bar.sheets.launcher
-import qs.modules.bar.sheets.wallpaper
+import qs.modules.launcher
+import qs.modules.wallpaper
 
 // The registry and loader for visual sheets. BarController owns its fade.
 Item {
@@ -15,11 +15,13 @@ Item {
     readonly property bool wantsKeyboard: ready && loader.item ? (loader.item.wantsKeyboard ?? false) : false
 
     function prepare(name: string): void {
-        if (name === sheetName && loaded) return;
+        if (name === sheetName && loaded)
+            return;
         loaded = false;
         sheetName = name;
         loaded = componentFor(name) !== null;
-        if (!loaded && name !== "") console.warn("Unknown bar sheet:", name);
+        if (!loaded && name !== "")
+            console.warn("Unknown bar sheet:", name);
     }
     function release(): void {
         loaded = false;
@@ -27,9 +29,12 @@ Item {
     }
     function componentFor(name: string): var {
         switch (name) {
-        case "launcher": return launcherComponent;
-        case "wallpaper": return wallpaperComponent;
-        default: return null;
+        case "launcher":
+            return launcherComponent;
+        case "wallpaper":
+            return wallpaperComponent;
+        default:
+            return null;
         }
     }
 

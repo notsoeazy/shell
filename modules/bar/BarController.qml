@@ -1,7 +1,6 @@
 import QtQuick
 import qs.components
 import qs.config
-import qs.modules.bar.sheets
 import qs.modules.osd
 import qs.services
 
@@ -34,7 +33,7 @@ Item {
     function clockSceneRect(): rect {
         return header.clockSceneRect();
     }
-    
+
     function syncPresentation(): void {
         const desired = Osd.active ? "osd" : "normal";
         if (contentMode !== "none" && contentMode !== desired) {
