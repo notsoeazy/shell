@@ -8,6 +8,7 @@ Singleton {
     readonly property BorderConfig border: BorderConfig {}
     readonly property OsdConfig osd: OsdConfig {}
     readonly property IdleConfig idle: IdleConfig {}
+    readonly property StepConfig steps: StepConfig {}
 
     component WallpaperConfig: QtObject {
         property bool enabled: true
@@ -49,5 +50,10 @@ Singleton {
 
     component IdleConfig: QtObject {
         property int lockAfter: 300
+    }
+
+    component StepConfig: QtObject {
+        property real brightness: 0.05
+        property real volume: 0.05
     }
 }

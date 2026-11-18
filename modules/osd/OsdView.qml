@@ -70,7 +70,7 @@ Item {
             onWheel: wheel => {
                 const delta = wheel.angleDelta.y !== 0 ? wheel.angleDelta.y / 120 : wheel.pixelDelta.y / 40;
                 if (delta !== 0) {
-                    Osd.adjustBy(delta * 0.05);
+                    Osd.adjustBy(delta);
                     wheel.accepted = true;
                 }
             }

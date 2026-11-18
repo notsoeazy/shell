@@ -23,8 +23,11 @@ Singleton {
         writeNext();
     }
     function change(delta: real): void {
-        const base = desired >= 0 ? desired / maximum : value;
-        set(base + delta);
+        if (!available || !isFinite(delta) || delta === 0)
+            return;
+        const base = desired >= 0 ? desired : raw;
+        const steps = Math.max(1, Math.round(Math.abs(delta) * maximum));
+        set((base + Math.sign(delta) * steps) / maximum);
     }
     function writeNext(): void {
         if (writer.running || pending < 0)

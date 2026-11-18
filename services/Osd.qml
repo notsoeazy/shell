@@ -62,8 +62,14 @@ Singleton {
     function adjustBy(delta: real): void {
         if (!adjustable || !isFinite(delta))
             return;
-        const base = source === "brightness" && Brightness.desired >= 0 ? Brightness.desired / Brightness.maximum : source === "volume" ? Audio.volume : Brightness.value;
-        adjust(base + delta);
+        const step = Math.max(0, source === "brightness" ? Config.steps.brightness : Config.steps.volume);
+        if (!isFinite(step) || step === 0 || delta === 0)
+            return;
+        if (source === "brightness")
+            Brightness.change(delta * step);
+        else
+            adjust(Audio.volume + delta * step);
+        restartTimeout();
     }
     onHeldChanged: restartTimeout()
     onAwaitingPresentationChanged: restartTimeout()

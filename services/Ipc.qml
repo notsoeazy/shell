@@ -1,6 +1,7 @@
 pragma Singleton
 import Quickshell
 import Quickshell.Io
+import qs.config
 import qs.modules.bar
 
 Singleton {
@@ -46,10 +47,10 @@ Singleton {
     IpcHandler {
         target: "audio"
         function volumeUp(): void {
-            Audio.changeVolume(0.05);
+            Audio.changeVolume(Math.max(0, Config.steps.volume));
         }
         function volumeDown(): void {
-            Audio.changeVolume(-0.05);
+            Audio.changeVolume(-Math.max(0, Config.steps.volume));
         }
         function setVolume(value: real): void {
             Audio.setVolume(value);
@@ -67,10 +68,10 @@ Singleton {
     IpcHandler {
         target: "brightness"
         function up(): void {
-            Brightness.change(0.05);
+            Brightness.change(Math.max(0, Config.steps.brightness));
         }
         function down(): void {
-            Brightness.change(-0.05);
+            Brightness.change(-Math.max(0, Config.steps.brightness));
         }
         function set(value: real): void {
             Brightness.set(value);

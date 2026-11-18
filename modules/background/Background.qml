@@ -24,15 +24,19 @@ PanelWindow {
     readonly property real farthest: Math.max(Math.hypot(transitionOrigin.x, transitionOrigin.y), Math.hypot(width - transitionOrigin.x, transitionOrigin.y), Math.hypot(transitionOrigin.x, height - transitionOrigin.y), Math.hypot(width - transitionOrigin.x, height - transitionOrigin.y)) + 2
 
     function requestImage(): void {
-        if (!desiredPath || width <= 0 || height <= 0 || revealing) return;
-        if (!resizeReload && front.wallpaperPath === desiredPath && front.imageStatus === Image.Ready) return;
-        if (metadataReader.running) return;
+        if (!desiredPath || width <= 0 || height <= 0 || revealing)
+            return;
+        if (!resizeReload && front.wallpaperPath === desiredPath && front.imageStatus === Image.Ready)
+            return;
+        if (metadataReader.running)
+            return;
         metadataPath = desiredPath;
         metadata = [];
         metadataReader.running = true;
     }
     function loadImage(path: string, dimensions: var): void {
-        if (path !== desiredPath || revealing) return;
+        if (path !== desiredPath || revealing)
+            return;
         const screenWidth = Math.ceil(width * Screen.devicePixelRatio);
         const screenHeight = Math.ceil(height * Screen.devicePixelRatio);
         let size = Qt.size(0, 0);
@@ -43,9 +47,11 @@ PanelWindow {
         resizeReload = false;
         back.decodeSize = size;
         back.wallpaperPath = path;
+        Qt.callLater(() => showLoaded(back));
     }
     function showLoaded(layer: var): void {
-        if (revealing || layer !== back || layer.wallpaperPath !== desiredPath || layer.imageStatus !== Image.Ready) return;
+        if (revealing || layer !== back || layer.wallpaperPath !== desiredPath || layer.imageStatus !== Image.Ready)
+            return;
         transitionOrigin = Qt.point(Math.max(0, Math.min(width, revealOrigin.x)), Math.max(0, Math.min(height, revealOrigin.y)));
         progress = 0;
         revealing = true;
@@ -53,7 +59,6 @@ PanelWindow {
         revealAnimation.start();
     }
     function changed(): void {
-        // Finish the current outward reveal, then load the newest request.
         requestDelay.restart();
     }
     onDesiredPathChanged: {
@@ -63,7 +68,8 @@ PanelWindow {
             revealing = false;
             layerA.wallpaperPath = "";
             layerB.wallpaperPath = "";
-        } else changed();
+        } else
+            changed();
     }
     onWidthChanged: resizeDelay.restart()
     onHeightChanged: resizeDelay.restart()
@@ -74,9 +80,18 @@ PanelWindow {
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Background
     mask: Region {}
-    anchors { top: true; bottom: true; left: true; right: true }
+    anchors {
+        top: true
+        bottom: true
+        left: true
+        right: true
+    }
 
-    Timer { id: requestDelay; interval: 120; onTriggered: root.requestImage() }
+    Timer {
+        id: requestDelay
+        interval: 120
+        onTriggered: root.requestImage()
+    }
     Timer {
         id: resizeDelay
         interval: 200
@@ -90,13 +105,20 @@ PanelWindow {
         command: ["python3", Quickshell.shellPath("utils/wallpapers.py"), "dimensions", root.metadataPath]
         stdout: StdioCollector {
             onStreamFinished: {
-                try { root.metadata = JSON.parse(text); }
-                catch (error) { root.metadata = []; }
+                try {
+                    root.metadata = JSON.parse(text);
+                } catch (error) {
+                    root.metadata = [];
+                }
             }
         }
         onExited: (code, status) => {
-            if (root.metadataPath !== root.desiredPath) root.requestImage();
-            else root.loadImage(root.metadataPath, code === 0 ? root.metadata : []);
+            if (requestDelay.running)
+                return;
+            if (root.metadataPath !== root.desiredPath)
+                root.requestImage();
+            else
+                root.loadImage(root.metadataPath, code === 0 ? root.metadata : []);
         }
     }
     component WallpaperLayer: Item {
@@ -104,7 +126,10 @@ PanelWindow {
         property size decodeSize: Qt.size(0, 0)
         readonly property int imageStatus: picture.status
         anchors.fill: parent
-        Rectangle { anchors.fill: parent; color: Theme.colors.m3background }
+        Rectangle {
+            anchors.fill: parent
+            color: Theme.colors.m3background
+        }
         Image {
             id: picture
             anchors.fill: parent
@@ -115,13 +140,21 @@ PanelWindow {
             cache: false
             sourceSize: parent.decodeSize
             onStatusChanged: {
-                if (status === Image.Ready) Qt.callLater(() => root.showLoaded(parent));
-                else if (status === Image.Error) console.warn("Wallpapers: failed to load", parent.wallpaperPath);
+                if (status === Image.Ready)
+                    Qt.callLater(() => root.showLoaded(parent));
+                else if (status === Image.Error)
+                    console.warn("Wallpapers: failed to load", parent.wallpaperPath);
             }
         }
     }
-    WallpaperLayer { id: layerA; z: root.frontIsA ? 0 : -1 }
-    WallpaperLayer { id: layerB; z: root.frontIsA ? -1 : 0 }
+    WallpaperLayer {
+        id: layerA
+        z: root.frontIsA ? 0 : -1
+    }
+    WallpaperLayer {
+        id: layerB
+        z: root.frontIsA ? -1 : 0
+    }
     ShaderEffectSource {
         id: revealSource
         sourceItem: root.back
@@ -150,7 +183,8 @@ PanelWindow {
             root.revealing = false;
             root.frontIsA = !root.frontIsA;
             root.back.wallpaperPath = "";
-            root.requestImage();
+            if (!requestDelay.running)
+                root.requestImage();
         }
     }
 }

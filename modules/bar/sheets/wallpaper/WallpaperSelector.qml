@@ -27,19 +27,22 @@ Item {
         }
     }
     function schedulePlacement(): void {
-        if (!active || !placing) return;
+        if (!active || !placing)
+            return;
         Qt.callLater(place);
         placementTimer.restart();
     }
     function select(index: int): void {
-        if (!Wallpapers.list.length) return;
+        if (!Wallpapers.list.length)
+            return;
         placing = false;
         placementTimer.stop();
         selectedIndex = Math.max(0, Math.min(Wallpapers.list.length - 1, index));
         Wallpapers.preview = Wallpapers.list[selectedIndex];
     }
     function commit(): void {
-        if (!Wallpapers.list.length) return;
+        if (!Wallpapers.list.length)
+            return;
         Wallpapers.set(Wallpapers.list[selectedIndex]);
         BarState.closeSheet();
     }
@@ -48,6 +51,7 @@ Item {
             placing = true;
             selectedIndex = Math.max(0, Wallpapers.list.indexOf(Wallpapers.current));
             Wallpapers.resetThumbnails();
+            Wallpapers.refresh();
             schedulePlacement();
         } else {
             Wallpapers.preview = "";
@@ -55,10 +59,30 @@ Item {
         }
     }
     onInteractiveChanged: {
-        if (interactive) Qt.callLater(() => { if (root.interactive) strip.forceActiveFocus(); });
-        else strip.focus = false;
+        if (interactive)
+            Qt.callLater(() => {
+                if (root.interactive)
+                    strip.forceActiveFocus();
+            });
+        else
+            strip.focus = false;
     }
     Component.onDestruction: Wallpapers.preview = ""
+
+    Connections {
+        target: Wallpapers
+        function onListChanged(): void {
+            if (!root.active)
+                return;
+            const selected = Wallpapers.preview || Wallpapers.current;
+            const index = Wallpapers.list.indexOf(selected);
+            root.selectedIndex = Math.max(0, index);
+            if (index < 0)
+                Wallpapers.preview = "";
+            root.placing = true;
+            root.schedulePlacement();
+        }
+    }
 
     Timer {
         id: placementTimer
@@ -80,19 +104,20 @@ Item {
         clip: true
         boundsBehavior: Flickable.StopAtBounds
         model: Wallpapers.list
-        header: Item { width: Math.max(0, (strip.width - root.thumbWidth) / 2); height: strip.height }
-        footer: Item { width: Math.max(0, (strip.width - root.thumbWidth) / 2); height: strip.height }
+        header: Item {
+            width: Math.max(0, (strip.width - root.thumbWidth) / 2)
+            height: strip.height
+        }
+        footer: Item {
+            width: Math.max(0, (strip.width - root.thumbWidth) / 2)
+            height: strip.height
+        }
         currentIndex: root.selectedIndex
         highlightMoveDuration: root.placing ? 0 : Tokens.animDuration.spatialFast
         highlightMoveVelocity: -1
         preferredHighlightBegin: (width - root.thumbWidth) / 2
         preferredHighlightEnd: (width + root.thumbWidth) / 2
         highlightRangeMode: ListView.ApplyRange
-        onCountChanged: {
-            root.selectedIndex = Math.max(0, Wallpapers.list.indexOf(Wallpapers.current));
-            root.placing = true;
-            root.schedulePlacement();
-        }
         onWidthChanged: root.schedulePlacement()
         Keys.onLeftPressed: root.select(root.selectedIndex - 1)
         Keys.onRightPressed: root.select(root.selectedIndex + 1)
@@ -112,9 +137,16 @@ Item {
             Component.onCompleted: Wallpapers.requestThumbnail(modelData)
             Connections {
                 target: Wallpapers
-                function onThumbnailsReset(): void { Wallpapers.requestThumbnail(cell.modelData); }
+                function onThumbnailsReset(): void {
+                    Wallpapers.requestThumbnail(cell.modelData);
+                }
             }
-            Behavior on factor { Anim { duration: Tokens.animDuration.spatialFast; easing.bezierCurve: Tokens.animCurve.spatialFast } }
+            Behavior on factor {
+                Anim {
+                    duration: Tokens.animDuration.spatialFast
+                    easing.bezierCurve: Tokens.animCurve.spatialFast
+                }
+            }
             ClippingRectangle {
                 id: thumbnail
                 anchors.centerIn: parent
@@ -137,9 +169,17 @@ Item {
                     border.width: 2
                     border.color: Theme.colors.m3primary
                     opacity: cell.selected ? 1 : 0
-                    Behavior on opacity { Anim { duration: Tokens.animDuration.effectsFast; easing.bezierCurve: Tokens.animCurve.effectsFast } }
+                    Behavior on opacity {
+                        Anim {
+                            duration: Tokens.animDuration.effectsFast
+                            easing.bezierCurve: Tokens.animCurve.effectsFast
+                        }
+                    }
                 }
-                MouseArea { anchors.fill: parent; onClicked: root.select(cell.index) }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: root.select(cell.index)
+                }
             }
         }
     }
@@ -165,7 +205,7 @@ Item {
             anchors.leftMargin: Tokens.padding.sm
             anchors.verticalCenter: parent.verticalCenter
             width: Math.max(0, parent.width - countLabel.width - 2 * Tokens.padding.lg)
-            text: Wallpapers.thumbnailError || (Wallpapers.list[root.selectedIndex] ?? "").split("/").pop()
+            text: Wallpapers.saveError || Wallpapers.thumbnailError || (Wallpapers.list[root.selectedIndex] ?? "").split("/").pop()
             color: Theme.colors.m3onSurfaceVariant
             font.family: Tokens.fontFamily.sans
             font.pixelSize: Tokens.fontSize.sm
@@ -191,6 +231,15 @@ Item {
         anchors.rightMargin: Tokens.padding.sm
         height: Tokens.wallpaper.hintHeight
         closeLabel: "cancel"
-        hints: [{ key: "←→", text: "browse" }, { key: "↵", text: "enter" }]
+        hints: [
+            {
+                key: "←→",
+                text: "browse"
+            },
+            {
+                key: "↵",
+                text: "enter"
+            }
+        ]
     }
 }

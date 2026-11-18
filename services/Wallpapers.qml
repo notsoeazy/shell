@@ -19,16 +19,19 @@ Singleton {
     property var thumbnailQueue: []
     property string thumbnailPath: ""
     property string thumbnailError: ""
+    property string saveError: ""
 
-    signal thumbnailsReset()
+    signal thumbnailsReset
 
     function requestThumbnail(path: string): void {
-        if (!path || thumbnails[path] !== undefined || thumbnailPath === path || thumbnailQueue.includes(path)) return;
+        if (!path || thumbnails[path] !== undefined || thumbnailPath === path || thumbnailQueue.includes(path))
+            return;
         thumbnailQueue = [path, ...thumbnailQueue];
         nextThumbnail();
     }
     function nextThumbnail(): void {
-        if (thumbnailer.running || thumbnailQueue.length === 0) return;
+        if (thumbnailer.running || thumbnailQueue.length === 0)
+            return;
         thumbnailPath = thumbnailQueue[0];
         thumbnailQueue = thumbnailQueue.slice(1);
         thumbnailer.running = true;
@@ -40,13 +43,15 @@ Singleton {
         thumbnailsReset();
     }
 
-
     function refresh(): void {
-        if (finder.running) refreshPending = true;
-        else finder.running = true;
+        if (finder.running)
+            refreshPending = true;
+        else
+            finder.running = true;
     }
     function set(path: string): void {
-        if (!list.includes(path)) return;
+        if (!list.includes(path))
+            return;
         current = path;
         preview = "";
         pendingSave = path;
@@ -63,22 +68,29 @@ Singleton {
 
     Process {
         id: finder
-        command: ["python3", Quickshell.shellPath("utils/wallpapers.py"), "scan", root.directory, FilePath.wallpaperState]
+        command: ["python3", Quickshell.shellPath("utils/wallpapers.py"), "scan", root.directory, FilePath.wallpaperState, FilePath.wallpaperCache]
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
-                if (root.refreshPending) return;
+                if (root.refreshPending)
+                    return;
                 try {
                     const result = JSON.parse(text);
-                    root.list = result.images;
                     const chosen = root.current || result.selected;
-                    root.current = root.list.includes(chosen) ? chosen : (root.list[0] || "");
-                } catch (error) { console.warn("Wallpapers: could not read image list:", error); }
+                    root.current = result.images.includes(chosen) ? chosen : (result.images[0] || "");
+                    root.list = result.images;
+                } catch (error) {
+                    console.warn("Wallpapers: could not read image list:", error);
+                }
             }
         }
         onExited: (code, status) => {
-            if (code !== 0) console.warn("Wallpapers: scan failed:", code);
-            if (root.refreshPending) { root.refreshPending = false; Qt.callLater(root.refresh); }
+            if (code !== 0)
+                console.warn("Wallpapers: scan failed:", code);
+            if (root.refreshPending) {
+                root.refreshPending = false;
+                Qt.callLater(root.refresh);
+            }
         }
     }
     Process {
@@ -88,13 +100,17 @@ Singleton {
             onStreamFinished: {
                 try {
                     const result = JSON.parse(text);
-                    root.thumbnails = Object.assign({}, root.thumbnails, { [root.thumbnailPath]: FilePath.fileUrl(result) });
+                    root.thumbnails = Object.assign({}, root.thumbnails, {
+                        [root.thumbnailPath]: FilePath.fileUrl(result)
+                    });
                 } catch (error) {}
             }
         }
         onExited: (code, status) => {
             if (code !== 0) {
-                root.thumbnails = Object.assign({}, root.thumbnails, { [root.thumbnailPath]: "" });
+                root.thumbnails = Object.assign({}, root.thumbnails, {
+                    [root.thumbnailPath]: ""
+                });
                 root.thumbnailError = "Thumbnail unavailable; ImageMagick (magick) is required.";
             }
             root.thumbnailPath = "";
@@ -104,7 +120,12 @@ Singleton {
     Process {
         id: saver
         onExited: (code, status) => {
-            if (code !== 0) console.warn("Wallpapers: could not save selection:", code);
+            if (code !== 0) {
+                console.warn("Wallpapers: could not save selection:", code);
+                root.saveError = "Could not save wallpaper selection";
+                Osd.showMessage("warning", "Could not save wallpaper selection");
+            } else if (!root.pendingSave)
+                root.saveError = "";
             Qt.callLater(root.saveNext);
         }
     }

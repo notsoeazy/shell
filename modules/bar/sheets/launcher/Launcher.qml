@@ -14,24 +14,20 @@ Item {
     readonly property bool wantsKeyboard: true
     readonly property var results: active ? Apps.search(search.text) : []
     readonly property int visibleResultCount: Math.min(results.length, Tokens.launcher.visibleRows)
-    readonly property real maximumImplicitHeight: Tokens.launcher.searchHeight + Tokens.spacing.sm
-        + Math.max(Tokens.launcher.emptyHeight, Tokens.launcher.visibleRows * Tokens.launcher.rowHeight
-            + Math.max(0, Tokens.launcher.visibleRows - 1) * Tokens.spacing.xxs)
-        + Tokens.spacing.md + Tokens.launcher.hintHeight
-
     implicitWidth: Tokens.launcher.width
     // Report the target height immediately. BarContainer and resultArea each
     // animate toward their own targets, so the footer follows the bar edge.
-    implicitHeight: search.implicitHeight + Tokens.spacing.sm + resultArea.implicitHeight
-        + Tokens.spacing.md + Tokens.launcher.hintHeight
+    implicitHeight: search.implicitHeight + Tokens.spacing.sm + resultArea.implicitHeight + Tokens.spacing.md + Tokens.launcher.hintHeight
 
     function moveSelection(direction: int): void {
-        if (results.length === 0) return;
+        if (results.length === 0)
+            return;
         list.currentIndex = Math.max(0, Math.min(results.length - 1, list.currentIndex + direction));
     }
 
     function activate(index: int): void {
-        if (index < 0 || index >= results.length) return;
+        if (index < 0 || index >= results.length)
+            return;
         const app = results[index];
         BarState.closeSheet();
         app.execute();
@@ -46,7 +42,10 @@ Item {
 
     onInteractiveChanged: {
         if (interactive)
-            Qt.callLater(() => { if (root.interactive) search.forceActiveFocus(); });
+            Qt.callLater(() => {
+                if (root.interactive)
+                    search.forceActiveFocus();
+            });
         else
             search.focus = false;
     }
@@ -55,24 +54,27 @@ Item {
         id: search
         implicitHeight: Tokens.launcher.searchHeight
         anchors.top: parent.top
-        anchors.left: parent.left; anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.right: parent.right
         placeholderText: "Search apps"
         onTextChanged: list.currentIndex = 0
         onAccepted: root.activate(list.currentIndex)
         onMoveSelection: direction => root.moveSelection(direction)
         onEscapeRequested: {
-            if (text.length > 0) text = "";
-            else BarState.closeSheet();
+            if (text.length > 0)
+                text = "";
+            else
+                BarState.closeSheet();
         }
     }
 
     Item {
         id: resultArea
-        anchors.top: search.bottom; anchors.topMargin: Tokens.spacing.sm
-        anchors.left: parent.left; anchors.right: parent.right
-        implicitHeight: root.visibleResultCount > 0
-            ? root.visibleResultCount * Tokens.launcher.rowHeight + (root.visibleResultCount - 1) * Tokens.spacing.xxs
-            : Tokens.launcher.emptyHeight
+        anchors.top: search.bottom
+        anchors.topMargin: Tokens.spacing.sm
+        anchors.left: parent.left
+        anchors.right: parent.right
+        implicitHeight: root.visibleResultCount > 0 ? root.visibleResultCount * Tokens.launcher.rowHeight + (root.visibleResultCount - 1) * Tokens.spacing.xxs : Tokens.launcher.emptyHeight
         height: implicitHeight
 
         Behavior on height {
@@ -148,6 +150,15 @@ Item {
         anchors.leftMargin: Tokens.padding.sm
         anchors.rightMargin: Tokens.padding.sm
         height: Tokens.launcher.hintHeight
-        hints: [{ key: "↑↓", text: "navigate" }, { key: "↵", text: "enter" }]
+        hints: [
+            {
+                key: "↑↓",
+                text: "navigate"
+            },
+            {
+                key: "↵",
+                text: "enter"
+            }
+        ]
     }
 }

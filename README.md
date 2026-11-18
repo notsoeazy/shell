@@ -102,6 +102,10 @@ IPC commands are registered centrally in `services/Ipc.qml`. For example, use `q
 
 The OSD lives in `modules/osd/` and exposes `audio`, `brightness`, and `osd` IPC targets. For example, `qs -p . ipc call osd message info "Example message"` shows a custom message. Volume and microphone state come from PipeWire; backlight control requires `brightnessctl` and a supported device. `Config.osd` controls which categories are shown.
 
+`Config.steps.volume` and `Config.steps.brightness` set the fraction changed by each IPC up/down command or OSD wheel notch. Both default to `0.05` (5%); zero disables relative changes. Brightness changes use at least one hardware step.
+
+The wallpaper selector refreshes its image list when opened. Thumbnails unused for 30 days are removed from the shell's wallpaper cache during a scan. If saving a selection fails, the selector shows an error and the message OSD reports it when enabled.
+
 ## Lockscreen
 
 The shell locks after 300 seconds of inactivity by default. Set `Config.idle.lockAfter` in `config/Config.qml` to a different number of seconds, or `0` to disable idle locking. Run `qs -p . ipc call lock lock` to lock manually. Unlocking uses the system PAM `login` authentication stack; no project-specific PAM file is installed. The lock uses Wayland session-lock surfaces, and the compositor may remain locked if the shell exits while locked.
