@@ -1,1 +1,4 @@
 .qmlls.ini
+/tests
+/documentation
+/docs
